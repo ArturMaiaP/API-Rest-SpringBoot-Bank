@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import br.com.task.bank.enumerations.TransactionMessage;
-import br.com.task.bank.error.AccountNotFoundException;
+import br.com.task.bank.exception.AccountNotFoundException;
 import br.com.task.bank.model.Account;
 import br.com.task.bank.repository.AccountsDAO;
 import br.com.task.bank.repository.AccountsDAOFactory;
@@ -19,23 +19,61 @@ import br.com.task.bank.repository.AccountsDAOFactory;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
-
+	
+	private final double WITHDRAW_LIMIT = 500;
 	private AccountsDAO<Account> accountsDAO =  AccountsDAOFactory.getInstance();
 	
 	@Override
-	public String updateBalance(int id, double value) {
+	public String deposit(int id, double amount) {
 		
-		Optional<Account> acc = accountsDAO.get(id);
+		Optional<Account> accCheck = accountsDAO.get(id);
 		
-		if(acc.isPresent()) {
-			Account newAcc = acc.get();
-			double newBalance = newAcc.getBalance() + value;
-			newAcc.setBalance(newBalance);
-			accountsDAO.update(newAcc);
+		if(accCheck.isPresent()) {
+			accountsDAO.update(addAmount(accCheck.get(), amount));
 			return TransactionMessage.DEPOSIT_SUCCESS.getMessage();
 		}else {
 			return null;
 		}
+	}
+
+	@Override
+	public String withdraw(int id, double amount) {
+		// TODO Auto-generated method stub
+		Optional<Account> accCheck = accountsDAO.get(id);
+		
+		if(amount > this.WITHDRAW_LIMIT) {
+			return TransactionMessage.WITHDRAW_OVER_LIMIT.getMessage();
+		}
+		if(accCheck.isPresent()) {
+			
+			if(accCheck.get().getBalance() < amount) {
+				return TransactionMessage.WITHDRAW_INSUFFICIENT_BALANCE.getMessage();
+			}
+			
+			accountsDAO.update(subAmount(accCheck.get(), amount));
+			return TransactionMessage.WITHDRAW_SUCCESS.getMessage();
+			
+		}else {
+			return null;	
+		}
+	}
+
+	@Override
+	public String transfer(int idRequest, int idDestination, double amount) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	private Account addAmount(Account acc, double amount) {
+		double newBalance = acc.getBalance() + amount;
+		acc.setBalance(newBalance);
+		return acc;
+	}
+	
+	private Account subAmount(Account acc, double amount) {
+		double newBalance = acc.getBalance() - amount;
+		acc.setBalance(newBalance);
+		return acc;
 	}
 	
 

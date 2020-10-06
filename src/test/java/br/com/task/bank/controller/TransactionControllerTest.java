@@ -17,10 +17,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import br.com.task.bank.enumerations.AccountMessages;
+
 import br.com.task.bank.enumerations.TransactionMessage;
 import br.com.task.bank.repository.AccountsDAOFactory;
-import br.com.task.bank.repository.AccountsDAOImpl;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,7 +40,7 @@ public class TransactionControllerTest {
 	@Test
 	void caseDepositSuccess() throws Exception{
 		int id = 10;
-		double value = 500;
+		double value = 200;
 		
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/deposits/"+id+"/"+value)
@@ -53,16 +53,16 @@ public class TransactionControllerTest {
 		String response = result.getResponse().getContentAsString();
 		assertEquals(response, TransactionMessage.DEPOSIT_SUCCESS.getMessage());
 		
-		assertEquals(560, AccountsDAOFactory.getInstance().get(10).get().getBalance());
+		assertEquals(260, AccountsDAOFactory.getInstance().get(id).get().getBalance());
 	}
 	
 	@Test
 	void caseDepositAccountNotFound() throws Exception{
 		int id = 12;
-		double value = 500;
+		double amount = 500;
 		
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/deposits/"+id+"/"+value)
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/deposits/"+id+"/"+amount)
 		        .contentType(MediaType.APPLICATION_JSON)
 		        .accept(MediaType.APPLICATION_JSON))
 		        .andExpect(MockMvcResultMatchers.status().isNotFound())
@@ -71,6 +71,62 @@ public class TransactionControllerTest {
 		        
 		String response = result.getResponse().getContentAsString();
 		assertEquals(response, TransactionMessage.ACCOUNT_NOT_FOUND.getMessage());
+		
+	}
+	
+	@Test
+	void caseWithdrawOverLimit() throws Exception{
+		int id = 10;
+		double amount = 600;
+		
+		
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/withdraws/"+id+"/"+amount)
+		        .contentType(MediaType.APPLICATION_JSON)
+		        .accept(MediaType.APPLICATION_JSON))
+		        .andExpect(MockMvcResultMatchers.status().isOk())
+		        .andDo(MockMvcResultHandlers.print())
+		        .andReturn();
+		        
+		String response = result.getResponse().getContentAsString();
+		assertEquals(response, TransactionMessage.WITHDRAW_OVER_LIMIT.getMessage());
+		
+	}
+	@Test
+	void caseWithdrawSuccess() throws Exception{
+		int id = 30;
+		double amount = 100;
+		
+		
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/withdraws/"+id+"/"+amount)
+		        .contentType(MediaType.APPLICATION_JSON)
+		        .accept(MediaType.APPLICATION_JSON))
+		        .andExpect(MockMvcResultMatchers.status().isOk())
+		        .andDo(MockMvcResultHandlers.print())
+		        .andReturn();
+		        
+		String response = result.getResponse().getContentAsString();
+		assertEquals(response, TransactionMessage.WITHDRAW_SUCCESS.getMessage());
+		
+		assertEquals(100, AccountsDAOFactory.getInstance().get(id).get().getBalance());
+		
+		
+	}
+	
+	@Test
+	void caseWithdrawInsufficientBalance() throws Exception{
+		int id = 30;
+		double amount = 400;
+		
+		
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/withdraws/"+id+"/"+amount)
+		        .contentType(MediaType.APPLICATION_JSON)
+		        .accept(MediaType.APPLICATION_JSON))
+		        .andExpect(MockMvcResultMatchers.status().isOk())
+		        .andDo(MockMvcResultHandlers.print())
+		        .andReturn();
+		        
+		String response = result.getResponse().getContentAsString();
+		assertEquals(response, TransactionMessage.WITHDRAW_INSUFFICIENT_BALANCE.getMessage());
 		
 	}
 }

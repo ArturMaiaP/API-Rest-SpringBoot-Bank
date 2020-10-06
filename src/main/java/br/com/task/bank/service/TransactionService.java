@@ -1,5 +1,7 @@
 package br.com.task.bank.service;
 
+import br.com.task.bank.model.Account;
+
 /**
  * 
  * 
@@ -8,5 +10,8 @@ package br.com.task.bank.service;
  */
 
 public interface TransactionService {
-	public String updateBalance(int id, double value);
+	public String deposit(int id, double amount);
+	public String withdraw(int id, double amount);
+	public String transfer(int idRequest, int idDestination, double amount);
+
 }

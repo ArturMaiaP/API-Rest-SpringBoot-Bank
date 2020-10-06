@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
 	public  String save(Account acc) {
 		
 		if(acc.getBalance()<50) {
-			return  AccountMessages.INSUFFICIENT_BALANCE.getMessage();
+			return  AccountMessages.INSUFFICIENT_INITIAL_BALANCE.getMessage();
 		}
 		else if(acc.getUser().getCpf() == null) {
 			return AccountMessages.CPF_MISSING.getMessage();

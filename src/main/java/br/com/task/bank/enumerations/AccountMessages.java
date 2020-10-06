@@ -9,7 +9,7 @@ package br.com.task.bank.enumerations;
 
 public enum AccountMessages {
 
-	INSUFFICIENT_BALANCE("Saldo insuficiente para abertura de uma nova conta."),
+	INSUFFICIENT_INITIAL_BALANCE("Saldo insuficiente para abertura de uma nova conta."),
 	CPF_MISSING("É necessário informar um cpf para abertura de uma nova conta."),
 	CPF_INVALID("CPF informado para criação de conta está inválido."),
 	SUCCESS(" Conta cadastrada com sucesso!");

@@ -1,4 +1,4 @@
-package br.com.task.bank.error;
+package br.com.task.bank.exception;
 
 public class AccountNotFoundException extends RuntimeException{
 	

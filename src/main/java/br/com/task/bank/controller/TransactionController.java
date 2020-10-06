@@ -1,7 +1,7 @@
 package br.com.task.bank.controller;
 
 import br.com.task.bank.enumerations.TransactionMessage;
-import br.com.task.bank.error.AccountNotFoundException;
+import br.com.task.bank.exception.AccountNotFoundException;
 import br.com.task.bank.model.Account;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,14 +37,32 @@ public class TransactionController {
 		this.transactionService = transactionService;
 		
 	}
-	@PatchMapping(value ="deposits/{id}/{value}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> deposit(@PathVariable("id") int id, @PathVariable("value") double value){
-		String body = transactionService.updateBalance(id,value);
+	@PatchMapping(value ="/deposits/{id}/{amount}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> deposit(@PathVariable("id") int id, @PathVariable("amount") double amount){
+		String body = this.transactionService.deposit(id,amount);
+		
 		if(body==null) {
 			return new ResponseEntity<String>(TransactionMessage.ACCOUNT_NOT_FOUND.getMessage(), HttpStatus.NOT_FOUND);
 		}else{
 			return new ResponseEntity<String>(body, HttpStatus.OK);
 		}
 	}
-
+	
+	@PatchMapping(value = "/withdraws/{id}/{amount}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> withdraw(@PathVariable("id") int id, @PathVariable("amount") double amount){
+		String body = this.transactionService.withdraw(id, amount);
+		
+		if(body==null) {
+			return new ResponseEntity<String>(TransactionMessage.ACCOUNT_NOT_FOUND.getMessage(), HttpStatus.NOT_FOUND);
+		}else{
+			return new ResponseEntity<String>(body, HttpStatus.OK);
+		}
+		
+	}
+	
+	@PatchMapping(value = "/transfers/{idRequest}/{idDestination}/{amount}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<String> transfer(@PathVariable("idRequest") int idRequest,
+			@PathVariable("idDestination") int idDestination, @PathVariable("amount") double amount){
+		return null;
+	}
 }

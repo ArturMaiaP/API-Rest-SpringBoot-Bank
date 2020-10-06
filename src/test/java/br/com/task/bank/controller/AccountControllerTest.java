@@ -59,7 +59,7 @@ public class AccountControllerTest {
 		        .andReturn();
 		        
 		String response = result.getResponse().getContentAsString();
-		assertEquals(response, AccountMessages.INSUFFICIENT_BALANCE.getMessage());
+		assertEquals(response, AccountMessages.INSUFFICIENT_INITIAL_BALANCE.getMessage());
 	}
 	
 }
