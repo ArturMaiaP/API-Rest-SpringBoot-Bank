@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -30,7 +31,7 @@ public class AccountController {
 	
 	private final AccountService accService;
 	
-	@Autowired
+
 	public AccountController(AccountServiceImpl accService) {
 		this.accService = accService;
 	}
@@ -38,16 +39,16 @@ public class AccountController {
 	
 	@GetMapping("/accounts")
 	public ResponseEntity<List<Account>> findAll(){
-		List<Account> body = accService.findAll();
+		List<Account> body = this.accService.findAll();
 		ResponseEntity<List<Account>> response = new ResponseEntity<List<Account>>(body, HttpStatus.OK);
 		return response;
 	}
 	
 	
-	@PostMapping(value = "/accounts", consumes = "application/json" , produces = "application/json")
+	@PostMapping(value = "/accounts", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> createAccount(@RequestBody Account acc) {
-		String body = accService.save(acc);
-		if(accService.isAccount(acc.getId())){
+		String body = this.accService.save(acc);
+		if(this.accService.isAccount(acc.getId())){
 			return new ResponseEntity<String>(body,HttpStatus.CREATED);
 		}else{
 			return new ResponseEntity<String>(body,HttpStatus.OK);

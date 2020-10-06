@@ -8,5 +8,5 @@ package br.com.task.bank.service;
  */
 
 public interface TransactionService {
-
+	public String updateBalance(int id, double value);
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import br.com.task.bank.enumerations.CreateAccountMessage;
+import br.com.task.bank.enumerations.AccountMessages;
 import br.com.task.bank.model.Account;
 import br.com.task.bank.repository.AccountsDAO;
 import br.com.task.bank.repository.AccountsDAOFactory;
@@ -30,16 +30,16 @@ public class AccountServiceImpl implements AccountService {
 	public  String save(Account acc) {
 		
 		if(acc.getBalance()<50) {
-			return  CreateAccountMessage.INSUFFICIENT_BALANCE.getMessage();
+			return  AccountMessages.INSUFFICIENT_BALANCE.getMessage();
 		}
 		else if(acc.getUser().getCpf() == null) {
-			return CreateAccountMessage.CPF_MISSING.getMessage();
+			return AccountMessages.CPF_MISSING.getMessage();
 		}
 		else if(acc.getUser().getCpf().length() != 11) {
-			return CreateAccountMessage.CPF_INVALID.getMessage();
+			return AccountMessages.CPF_INVALID.getMessage();
 		}else {
 			accountsDAO.save(acc);
-			return acc.getId()+CreateAccountMessage.SUCCESS.getMessage();
+			return acc.getId()+AccountMessages.SUCCESS.getMessage();
 		}
 	}
 
