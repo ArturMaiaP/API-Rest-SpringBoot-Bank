@@ -26,6 +26,13 @@ public class AccountsDAOImpl implements AccountsDAO<Account> {
 		
 		Account acc2 = new Account(30, u1, 200);
 		accounts.add(acc2);
+		
+		Account acc3 = new Account(101, u1, 2000);
+		accounts.add(acc3);
+		
+		Account acc4 = new Account(102, u1, 2000);
+		accounts.add(acc4);
+		
 	}
 
 	@Override

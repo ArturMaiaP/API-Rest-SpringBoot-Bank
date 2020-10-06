@@ -63,6 +63,12 @@ public class TransactionController {
 	@PatchMapping(value = "/transfers/{idRequest}/{idDestination}/{amount}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> transfer(@PathVariable("idRequest") int idRequest,
 			@PathVariable("idDestination") int idDestination, @PathVariable("amount") double amount){
-		return null;
+		String body = this.transactionService.transfer(idRequest, idDestination, amount);
+
+		if(body==null) {
+			return new ResponseEntity<String>(TransactionMessage.ACCOUNT_NOT_FOUND.getMessage(), HttpStatus.NOT_FOUND);
+		}else{
+			return new ResponseEntity<String>(body, HttpStatus.OK);
+		}
 	}
 }

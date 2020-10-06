@@ -129,4 +129,47 @@ public class TransactionControllerTest {
 		assertEquals(response, TransactionMessage.WITHDRAW_INSUFFICIENT_BALANCE.getMessage());
 		
 	}
+	
+	@Test
+	void caseTransferOverLimit() throws Exception{
+		int idRequest = 30;
+		double amount = 600;
+		int idDestination = 10;
+		
+		
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/transfers/"+idRequest+
+				"/"+ idDestination +"/"+amount)
+		        .contentType(MediaType.APPLICATION_JSON)
+		        .accept(MediaType.APPLICATION_JSON))
+		        .andExpect(MockMvcResultMatchers.status().isOk())
+		        .andDo(MockMvcResultHandlers.print())
+		        .andReturn();
+		        
+		String response = result.getResponse().getContentAsString();
+		assertEquals(response, TransactionMessage.TRANSFER_OVER_LIMIT.getMessage());
+		
+	}
+	
+	@Test
+	void caseTransferSuccess() throws Exception{
+		int idRequest = 101;
+		int idDestination = 102;
+		double amount = 300;
+		
+		
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/transfers/"+idRequest+
+				"/"+ idDestination +"/"+amount)
+		        .contentType(MediaType.APPLICATION_JSON)
+		        .accept(MediaType.APPLICATION_JSON))
+		        .andExpect(MockMvcResultMatchers.status().isOk())
+		        .andDo(MockMvcResultHandlers.print())
+		        .andReturn();
+		        
+		String response = result.getResponse().getContentAsString();
+		assertEquals(response, TransactionMessage.TRANSFER_SUCCESS.getMessage());
+		
+		assertEquals(1700, AccountsDAOFactory.getInstance().get(idRequest).get().getBalance());
+		assertEquals(2300, AccountsDAOFactory.getInstance().get(idDestination).get().getBalance());
+		
+	}
 }

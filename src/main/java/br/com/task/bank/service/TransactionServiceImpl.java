@@ -21,6 +21,7 @@ import br.com.task.bank.repository.AccountsDAOFactory;
 public class TransactionServiceImpl implements TransactionService {
 	
 	private final double WITHDRAW_LIMIT = 500;
+	private final double TRANSFER_LIMIT = 500;
 	private AccountsDAO<Account> accountsDAO =  AccountsDAOFactory.getInstance();
 	
 	@Override
@@ -61,7 +62,23 @@ public class TransactionServiceImpl implements TransactionService {
 	@Override
 	public String transfer(int idRequest, int idDestination, double amount) {
 		// TODO Auto-generated method stub
-		return null;
+		Optional<Account> accRequestCheck = accountsDAO.get(idRequest);
+		Optional<Account> accDestinationCheck = accountsDAO.get(idDestination);
+		
+		if(amount > this.TRANSFER_LIMIT) {
+			return TransactionMessage.TRANSFER_OVER_LIMIT.getMessage();
+		}
+		if(accRequestCheck.isPresent() && accDestinationCheck.isPresent()) {
+			if(accRequestCheck.get().getBalance() < amount) {
+				return TransactionMessage.TRANSFER_INSUFFICIENT_BALANCE.getMessage();
+			}
+			accountsDAO.update(subAmount(accRequestCheck.get(), amount));
+			accountsDAO.update(addAmount(accDestinationCheck.get(), amount));
+			return TransactionMessage.TRANSFER_SUCCESS.getMessage();
+			
+		}else {
+			return null;
+		}
 	}
 	
 	private Account addAmount(Account acc, double amount) {
