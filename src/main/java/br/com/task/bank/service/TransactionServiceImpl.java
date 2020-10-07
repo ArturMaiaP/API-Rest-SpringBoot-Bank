@@ -1,21 +1,19 @@
 package br.com.task.bank.service;
 
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
-import br.com.task.bank.enumerations.TransactionMessage;
-import br.com.task.bank.exception.AccountNotFoundException;
-import br.com.task.bank.model.Account;
-import br.com.task.bank.repository.AccountsDAO;
-import br.com.task.bank.repository.AccountsDAOFactory;
-
 /**
  * 
  * 
  * @author Artur Maia Pereira
  * @version 1.0 - 05/10/2020
  */
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import br.com.task.bank.enumerations.TransactionMessage;
+import br.com.task.bank.model.Account;
+import br.com.task.bank.repository.AccountsDAO;
+import br.com.task.bank.repository.AccountsDAOFactory;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
@@ -24,6 +22,7 @@ public class TransactionServiceImpl implements TransactionService {
 	private final double TRANSFER_LIMIT = 500;
 	private AccountsDAO<Account> accountsDAO =  AccountsDAOFactory.getInstance();
 	
+
 	@Override
 	public String deposit(int id, double amount) {
 		

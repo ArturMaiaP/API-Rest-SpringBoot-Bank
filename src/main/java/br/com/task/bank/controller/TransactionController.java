@@ -1,15 +1,5 @@
 package br.com.task.bank.controller;
 
-import br.com.task.bank.enumerations.TransactionMessage;
-import br.com.task.bank.exception.AccountNotFoundException;
-import br.com.task.bank.model.Account;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * 
@@ -17,12 +7,17 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author Artur Maia Pereira
  * @version 1.0 - 05/10/2020
  */
+import br.com.task.bank.enumerations.TransactionMessage;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.task.bank.service.AccountService;
-import br.com.task.bank.service.AccountServiceImpl;
 import br.com.task.bank.service.TransactionService;
 
 @RestController
@@ -37,6 +32,14 @@ public class TransactionController {
 		this.transactionService = transactionService;
 		
 	}
+	
+	/**
+	 * Deposit money operation.
+	 * 
+	 * @param id - account unique number
+	 * @param amount - value to be deposited in the specified account 
+	 * @return String informing the operating result;
+	 */
 	@PatchMapping(value ="/deposits/{id}/{amount}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> deposit(@PathVariable("id") int id, @PathVariable("amount") double amount){
 		String body = this.transactionService.deposit(id,amount);
@@ -48,6 +51,14 @@ public class TransactionController {
 		}
 	}
 	
+	
+	/**
+	 * Withdraw money operation.
+	 * 
+	 * @param id - account unique number
+	 * @param amount - value to be deposited in the specified account 
+	 * @return String informing the operating result;
+	 */
 	@PatchMapping(value = "/withdraws/{id}/{amount}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> withdraw(@PathVariable("id") int id, @PathVariable("amount") double amount){
 		String body = this.transactionService.withdraw(id, amount);
@@ -59,6 +70,15 @@ public class TransactionController {
 		}
 		
 	}
+	
+	/**
+	 * Transfer money operation
+	 * 
+	 * @param idRequest 
+	 * @param idDescription
+	 * @param amount - value to be deposited in the specified account 
+	 * @return String informing the operating result;
+	 */
 	
 	@PatchMapping(value = "/transfers/{idRequest}/{idDestination}/{amount}", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> transfer(@PathVariable("idRequest") int idRequest,

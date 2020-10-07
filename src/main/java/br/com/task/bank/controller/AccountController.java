@@ -10,7 +10,6 @@ package br.com.task.bank.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +34,12 @@ public class AccountController {
 	public AccountController(AccountServiceImpl accService) {
 		this.accService = accService;
 	}
-
 	
+	/**
+	 *Get all accounts from the database
+	 * 
+	 * @return String informing the operating result
+	 */
 	@GetMapping("/accounts")
 	public ResponseEntity<List<Account>> findAll(){
 		List<Account> body = this.accService.findAll();
@@ -44,7 +47,11 @@ public class AccountController {
 		return response;
 	}
 	
-	
+	/**
+	 * Create an account
+	 * @param acc - account to be registered
+	 * @return String informing the operating result
+	 */
 	@PostMapping(value = "/accounts", consumes = MediaType.APPLICATION_JSON_VALUE , produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> createAccount(@RequestBody Account acc) {
 		String body = this.accService.save(acc);
