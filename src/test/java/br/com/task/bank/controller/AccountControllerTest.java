@@ -62,4 +62,22 @@ public class AccountControllerTest {
 		assertEquals(response, AccountMessages.INSUFFICIENT_INITIAL_BALANCE.getMessage());
 	}
 	
+	@Test
+	void caseCreateSuccess() throws Exception{
+		User u1 = new User("Maia", "09908808800");
+		Account acc1 = new Account(123, u1, 1000);	
+		String jsonString = mapper.writeValueAsString(acc1);
+		
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/bank/api/v1/accounts")
+		        .contentType(MediaType.APPLICATION_JSON)
+		        .content(jsonString)
+		        .accept(MediaType.APPLICATION_JSON))
+		        .andExpect(MockMvcResultMatchers.status().isCreated())
+		        .andDo(MockMvcResultHandlers.print())
+		        .andReturn();
+		        
+		String response = result.getResponse().getContentAsString();
+		assertEquals(response,acc1.getId()+ AccountMessages.SUCCESS.getMessage());
+	}
+	
 }

@@ -35,5 +35,12 @@ public interface AccountService {
 	 * @return  true if the account exists false otherwise
 	 */
 	public boolean isAccount(int id);
+
+	/**
+	 *Get the specified account by id
+	 * @param id - account id
+	 * @return Account
+	 */
+	public Account findById(int id);
 	 
 }

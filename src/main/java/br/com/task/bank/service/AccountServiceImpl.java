@@ -55,5 +55,15 @@ public class AccountServiceImpl implements AccountService {
 			return false;
 		}
 	}
+
+	@Override
+	public Account findById(int id) {
+		if(accountsDAO.get(id).isPresent()) {
+			return accountsDAO.get(id).get();
+		}else {
+			return null;
+		}
+		
+	}
 	
 }

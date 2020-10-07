@@ -30,8 +30,6 @@ public class TransactionControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 
-	@Autowired
-	ObjectMapper mapper = new ObjectMapper();
 	
 	@Test
 	void contextLoads() {
@@ -40,10 +38,10 @@ public class TransactionControllerTest {
 	@Test
 	void caseDepositSuccess() throws Exception{
 		int id = 10;
-		double value = 200;
+		double amount = 200;
 		
 		
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/deposits/"+id+"/"+value)
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/deposits/"+id+"/"+amount)
 		        .contentType(MediaType.APPLICATION_JSON)
 		        .accept(MediaType.APPLICATION_JSON))
 		        .andExpect(MockMvcResultMatchers.status().isOk())

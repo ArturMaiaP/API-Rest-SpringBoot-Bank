@@ -14,7 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,14 +36,14 @@ public class AccountController {
 	}
 	
 	/**
-	 *Get all accounts from the database
-	 * 
-	 * @return String informing the operating result
+	 *Get the specified account by id
+	 * @param id - account id
+	 * @return Account
 	 */
-	@GetMapping("/accounts")
-	public ResponseEntity<List<Account>> findAll(){
-		List<Account> body = this.accService.findAll();
-		ResponseEntity<List<Account>> response = new ResponseEntity<List<Account>>(body, HttpStatus.OK);
+	@GetMapping("/accounts/{id}")
+	public ResponseEntity<Account> findById(@PathVariable("id") int id){
+		Account body = this.accService.findById(id);
+		ResponseEntity<Account> response = new ResponseEntity<Account>(body, HttpStatus.OK);
 		return response;
 	}
 	
