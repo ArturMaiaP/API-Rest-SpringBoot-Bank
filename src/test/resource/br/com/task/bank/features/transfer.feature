@@ -22,37 +22,41 @@ Feature: Account transfer transaction
 
 
   @TransferSuccess
-  Scenario Outline: Successful withdraw
+  Scenario Outline: Successful transfer
     Given I want to transfer 499.0 from <accountFrom> to <accountTo>
     When I perform the transfer task
-    Then The transfer operation should return the message: "Saque realizado com sucesso!"
+    Then The transfer operation should return the message: "Transferencia realizada com sucesso!"
     And My account balance after the transfer should be 501.0
-    And the destination account balance shoulde be 
+    And The destination account balance shoulde be 699.0
    
    Examples:
-     | accountId  | balance | 
-     | 123456 	  |  1000   |
+     | accountFrom  |  accountTo | myBalance | 
+     | 123456 	    |  30        | 1000.0      |
      
   @TransferOverLimit
-  Scenario Outline: 
-  	Given I want to withdraw 501.0 from the following <accountId>
-    When I perform the withdraw task
-    Then The withdraw operation should return the message: "Operacao de transferencia tem um limite maximo de 500 por operacao."
-    And My account balance after the withdraw should be <balance>
+  Scenario Outline: Transfer maximum limit exceeded
+  	Given I want to transfer 501.0 from <accountFrom> to <accountTo>
+    When I perform the transfer task
+    Then The transfer operation should return the message: "Operacao de transferencia tem um limite maximo de 500 por operacao."
+    And My account balance after the transfer should be <myBalance>
+    And The destination account balance shoulde be 699.0
    
    Examples:
-     | accountId  | balance | 
-     |    101 	  |  2000   |
-
+     | accountFrom  |  accountTo | myBalance | 
+     | 123456 	    |  30        | 501.0     |
+     
   @TransferInsufficientBalance
-  Scenario Outline: 
-  	Given I want to withdraw 100.0 from the following <accountId>
-    When I perform the withdraw task
-    Then The withdraw operation should return the message: "Saldo insuficiente para a operacao."
-    And My account balance after the withdraw should be <balance>
+  Scenario Outline: Account does not have funds for the transfer
+  	Given I want to transfer 100.0 from <accountFrom> to <accountTo>
+    When I perform the transfer task
+    Then The transfer operation should return the message: "Saldo insuficiente para a operacao."
+    And My account balance after the transfer should be <myBalance>
+    And The destination account balance shoulde be 699.0
    
    Examples:
-     | accountId  | balance | 
-     |     10	    |  60     |
+     | accountFrom  |  accountTo | myBalance | 
+     | 10 	        |  30        | 60.0      |
+     
+ 
   
      

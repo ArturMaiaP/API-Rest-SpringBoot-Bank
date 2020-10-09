@@ -33,7 +33,7 @@ Feature: Account withdraw transaction
      | 123456 	  |  1000   |
      
   @WithdrawOverLimit
-  Scenario Outline: 
+  Scenario Outline: Withdraw maximum limit exceeded
   	Given I want to withdraw 501.0 from the following <accountId>
     When I perform the withdraw task
     Then The withdraw operation should return the message: "Operacao de transferencia tem um limite maximo de 500 por operacao."
@@ -44,7 +44,7 @@ Feature: Account withdraw transaction
      |    101 	  |  2000   |
 
   @WithdrawInsufficientBalance
-  Scenario Outline: 
+  Scenario Outline: Account does not have funds for the withdraw
   	Given I want to withdraw 100.0 from the following <accountId>
     When I perform the withdraw task
     Then The withdraw operation should return the message: "Saldo insuficiente para a operacao."

@@ -30,7 +30,7 @@ public class DepositStepDefinitions extends TransactionControllerTestsCucumber i
 	private String response;
 	
 	@Autowired
-	protected MockMvc mockMvc;
+	private MockMvc mockMvc;
 	
 	@Given("I want to deposit {double} in the following {int}")
 	public void depositDestination(double amount, int accountId) {
@@ -55,6 +55,7 @@ public class DepositStepDefinitions extends TransactionControllerTestsCucumber i
 	public void validateMessage(String message) {
 		assertEquals(message,response);
 	}
+	
 	
 	@Then("My account balance after the deposit should be {double}")
 	public void validateBalance(double balance) throws Exception {

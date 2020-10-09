@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import br.com.task.bank.cucumber.TransactionControllerTestsCucumber;
-import br.com.task.bank.enumerations.TransactionMessage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -26,6 +25,7 @@ import io.cucumber.java8.En;
 @SpringBootTest
 public class WithdrawStepDefinitions  extends TransactionControllerTestsCucumber implements En {
 
+	
 	private int id;
 	private double amount;
 	private String response;
@@ -41,7 +41,7 @@ public class WithdrawStepDefinitions  extends TransactionControllerTestsCucumber
 
 	
 	@When("I perform the withdraw task")
-	public void depositTask() throws Exception {
+	public void withdrawTask() throws Exception {
 		
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.patch("/bank/api/v1/withdraws/"+id+"/"+amount)
 		        .contentType(MediaType.APPLICATION_JSON)
