@@ -26,7 +26,6 @@ public class TransactionController {
 	
 	private final TransactionService transactionService;
 	
-
 	public TransactionController(TransactionService transactionService) {
 		// TODO Auto-generated constructor stub
 		this.transactionService = transactionService;

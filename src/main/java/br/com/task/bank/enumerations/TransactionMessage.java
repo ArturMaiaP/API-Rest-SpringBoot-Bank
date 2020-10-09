@@ -11,6 +11,7 @@ public enum TransactionMessage {
 	TRANSFER_SUCCESS("Transferencia realizada com sucesso!");
 	
 	
+	
 	private String message;
 
 	TransactionMessage(String message ) {

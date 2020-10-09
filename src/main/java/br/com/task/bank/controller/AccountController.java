@@ -30,7 +30,6 @@ public class AccountController {
 	
 	private final AccountService accService;
 	
-
 	public AccountController(AccountServiceImpl accService) {
 		this.accService = accService;
 	}
