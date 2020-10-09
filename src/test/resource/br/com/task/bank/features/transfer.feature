@@ -1,5 +1,5 @@
-#Author: artur.maiap@gmail.com
-#Keywords Summary : Transaction API REST
+#Author: your.email@your.domain.com
+#Keywords Summary :
 #Feature: List of scenarios.
 #Scenario: Business rule through list of steps with arguments.
 #Given: Some precondition step
@@ -17,22 +17,23 @@
 ## (Comments)
 #Sample Feature Definition Template
 
-@Withdraw
-Feature: Account withdraw transaction
+@Transfer
+Feature: Account transfer transaction
 
 
-  @WithdrawSuccess
+  @TransferSuccess
   Scenario Outline: Successful withdraw
-    Given I want to withdraw 499.0 from the following <accountId>
-    When I perform the withdraw task
-    Then The withdraw operation should return the message: "Saque realizado com sucesso!"
-    And My account balance after the withdraw should be 501.0
+    Given I want to transfer 499.0 from <accountFrom> to <accountTo>
+    When I perform the transfer task
+    Then The transfer operation should return the message: "Saque realizado com sucesso!"
+    And My account balance after the transfer should be 501.0
+    And the destination account balance shoulde be 
    
    Examples:
      | accountId  | balance | 
      | 123456 	  |  1000   |
      
-  @WithdrawOverLimit
+  @TransferOverLimit
   Scenario Outline: 
   	Given I want to withdraw 501.0 from the following <accountId>
     When I perform the withdraw task
@@ -43,7 +44,7 @@ Feature: Account withdraw transaction
      | accountId  | balance | 
      |    101 	  |  2000   |
 
-  @WithdrawInsufficientBalance
+  @TransferInsufficientBalance
   Scenario Outline: 
   	Given I want to withdraw 100.0 from the following <accountId>
     When I perform the withdraw task
@@ -53,6 +54,5 @@ Feature: Account withdraw transaction
    Examples:
      | accountId  | balance | 
      |     10	    |  60     |
-
   
      

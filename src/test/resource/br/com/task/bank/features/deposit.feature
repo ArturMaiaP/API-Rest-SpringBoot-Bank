@@ -18,16 +18,15 @@
 #Sample Feature Definition Template
 
 @Deposit
-Feature: Checking the account deposit transaction from our bank application
+Feature: Account deposit transaction
 		
 			
 	@DepositSuccess
   Scenario Outline: Successful deposit
-    Given I have the following <accountId>
-    And I require a deposit of 500.0
+    Given I want to deposit 500.0 in the following <accountId>
     When I perform the deposit task
-    Then I should see "Deposito realizado com sucesso!" message
-    And My account balance should be 1500.0
+    Then The deposit operation should return the message: "Deposito realizado com sucesso!"
+    And My account balance after the deposit should be 1500.0
    
    Examples:
      | accountId  | balance | 
