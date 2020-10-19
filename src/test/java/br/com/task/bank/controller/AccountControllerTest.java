@@ -62,6 +62,7 @@ public class AccountControllerTest {
 		assertEquals(response, AccountMessages.INSUFFICIENT_INITIAL_BALANCE.getMessage());
 	}
 	
+	
 	@Test
 	void caseCreateSuccess() throws Exception{
 		User u1 = new User("Maia", "09908808800");
