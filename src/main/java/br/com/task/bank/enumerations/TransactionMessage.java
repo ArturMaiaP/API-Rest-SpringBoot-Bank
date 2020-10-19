@@ -9,9 +9,7 @@ public enum TransactionMessage {
 	TRANSFER_OVER_LIMIT("Operacao de transferencia tem um limite maximo de 500 por operacao."),
 	TRANSFER_INSUFFICIENT_BALANCE("Saldo insuficiente para a operacao."),
 	TRANSFER_SUCCESS("Transferencia realizada com sucesso!");
-	
-	
-	
+		
 	private String message;
 
 	TransactionMessage(String message ) {
